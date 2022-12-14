@@ -14,19 +14,35 @@ final class ApiRequestService {
 
 extension ApiRequestService: ApiRequestServing {
     func fetchMovies<T>(endpoint: Endpoint,  with model: T.Type) async -> Result<T, NetworkError> where T : Decodable {
-        var urlComponents = URLComponents()
-        urlComponents.scheme = endpoint.scheme
-        urlComponents.host = endpoint.baseURL
-        urlComponents.path = endpoint.path
+        let urlComponents = configUrlComponents(with: endpoint)
         
         guard let url = urlComponents.url else {
             return .failure(.invalidUrl)
         }
-                
+        
+        let request = configURLRequest(url: url, with: endpoint)
+        let result = await handleRequestResult(request: request, with: model)
+        return result
+    }
+}
+
+private extension ApiRequestService {
+    func configUrlComponents(with endpoint: Endpoint) -> URLComponents {
+        var urlComponents = URLComponents()
+        urlComponents.scheme = endpoint.scheme
+        urlComponents.host = endpoint.baseURL
+        urlComponents.path = endpoint.path
+        return urlComponents
+    }
+    
+    func configURLRequest(url: URL, with endpoint: Endpoint) -> URLRequest {
         var request = URLRequest(url: url)
         request.httpMethod = endpoint.method.rawValue
         request.allHTTPHeaderFields = endpoint.header
-        
+        return request
+    }
+    
+    func handleRequestResult<T: Decodable>(request: URLRequest, with model: T.Type) async -> Result<T, NetworkError> {
         do {
             let (data, response) = try await URLSession.shared.data(for: request, delegate: nil)
             guard let response = response as? HTTPURLResponse else {
@@ -47,51 +63,5 @@ extension ApiRequestService: ApiRequestServing {
         } catch {
             return .failure(.unexpectedError)
         }
-    }
-}
-
-
-struct TopRatedModel: Decodable {
-    let page: Int?
-    let results: [Movie]?
-    let totalResults: Int?
-    let totalPages: Int?
-
-    enum CodingKeys: String, CodingKey {
-        case page
-        case results
-        case totalResults = "total_results"
-        case totalPages = "total_pages"
-    }
-}
-
-struct Movie: Decodable {
-    let posterPath: String?
-    let adult: Bool?
-    let overview, releaseDate: String?
-    let genreIDS: [Int]?
-    let id: Int?
-    let originalTitle: String?
-    let originalLanguage: String?
-    let title, backdropPath: String?
-    let popularity: Double?
-    let voteCount: Int?
-    let video: Bool?
-    let voteAverage: Double?
-
-    enum CodingKeys: String, CodingKey {
-        case posterPath = "poster_path"
-        case adult, overview
-        case releaseDate = "release_date"
-        case genreIDS = "genre_ids"
-        case id
-        case originalTitle = "original_title"
-        case originalLanguage = "original_language"
-        case title
-        case backdropPath = "backdrop_path"
-        case popularity
-        case voteCount = "vote_count"
-        case video
-        case voteAverage = "vote_average"
     }
 }
