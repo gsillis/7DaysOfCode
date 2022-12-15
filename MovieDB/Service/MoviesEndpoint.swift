@@ -24,7 +24,7 @@ extension MoviesEndpoint: Endpoint {
 
     var header: [String: String] {
         //Replace with your access token
-        guard let token = Bundle.main.infoDictionary?["API_KEY"] as? String else { return [:] }
+        guard let token = Bundle.main.infoDictionary?["API_TOKEN"] as? String else { return [:] }
         switch self {
         case .topRated, .movieDetail:
             return [

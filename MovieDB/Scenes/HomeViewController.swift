@@ -1,13 +1,6 @@
-//
-//  ViewController.swift
-//  MovieDB
-//
-//  Created by Gabriela Sillis on 14/12/22.
-//
-
 import UIKit
 
-class ViewController: UIViewController {
+final class ViewController: UIViewController {
 
     let service = ApiRequestService()
     

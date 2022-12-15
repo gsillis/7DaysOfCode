@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		C50FD39C2949FD63002FE673 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C50FD39B2949FD63002FE673 /* AppDelegate.swift */; };
 		C50FD39E2949FD63002FE673 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C50FD39D2949FD63002FE673 /* SceneDelegate.swift */; };
-		C50FD3A02949FD63002FE673 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C50FD39F2949FD63002FE673 /* ViewController.swift */; };
+		C50FD3A02949FD63002FE673 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C50FD39F2949FD63002FE673 /* HomeViewController.swift */; };
 		C50FD3A32949FD63002FE673 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C50FD3A12949FD63002FE673 /* Main.storyboard */; };
 		C50FD3A52949FD64002FE673 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C50FD3A42949FD64002FE673 /* Assets.xcassets */; };
 		C50FD3A82949FD64002FE673 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C50FD3A62949FD64002FE673 /* LaunchScreen.storyboard */; };
@@ -46,7 +46,7 @@
 		C50FD3982949FD63002FE673 /* MovieDB.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MovieDB.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C50FD39B2949FD63002FE673 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C50FD39D2949FD63002FE673 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		C50FD39F2949FD63002FE673 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		C50FD39F2949FD63002FE673 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		C50FD3A22949FD63002FE673 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		C50FD3A42949FD64002FE673 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C50FD3A72949FD64002FE673 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -114,7 +114,9 @@
 		C50FD39A2949FD63002FE673 /* MovieDB */ = {
 			isa = PBXGroup;
 			children = (
-				C50FD3D8294A83F0002FE673 /* Scene */,
+				C50FD3E3294A8774002FE673 /* Model */,
+				C50FD3CB294A092C002FE673 /* Service */,
+				C50FD3D8294A83F0002FE673 /* Scenes */,
 				C50FD3D7294A83E2002FE673 /* AppDelegate */,
 				C50FD3A12949FD63002FE673 /* Main.storyboard */,
 				C50FD3A42949FD64002FE673 /* Assets.xcassets */,
@@ -163,14 +165,12 @@
 			path = AppDelegate;
 			sourceTree = "<group>";
 		};
-		C50FD3D8294A83F0002FE673 /* Scene */ = {
+		C50FD3D8294A83F0002FE673 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
-				C50FD3E3294A8774002FE673 /* Model */,
-				C50FD39F2949FD63002FE673 /* ViewController.swift */,
-				C50FD3CB294A092C002FE673 /* Service */,
+				C50FD39F2949FD63002FE673 /* HomeViewController.swift */,
 			);
-			path = Scene;
+			path = Scenes;
 			sourceTree = "<group>";
 		};
 		C50FD3E3294A8774002FE673 /* Model */ = {
@@ -313,7 +313,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C50FD3A02949FD63002FE673 /* ViewController.swift in Sources */,
+				C50FD3A02949FD63002FE673 /* HomeViewController.swift in Sources */,
 				C50FD3DE294A872E002FE673 /* Endpoint.swift in Sources */,
 				C50FD3E7294A879B002FE673 /* MovieModel.swift in Sources */,
 				C50FD3E1294A872E002FE673 /* ApiRequestService.swift in Sources */,
@@ -441,6 +441,7 @@
 		};
 		C50FD3C12949FD64002FE673 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C50FD3D6294A7E5E002FE673 /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
