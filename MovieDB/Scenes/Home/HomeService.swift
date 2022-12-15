@@ -1,6 +1,6 @@
 import Foundation
 
-protocol HomeServing {
+protocol HomeServicing {
     func getTopRated() async -> Result<TopRatedModel, NetworkError>
 }
 
@@ -12,7 +12,7 @@ final class HomeService {
     }
 }
 
-extension HomeService: HomeServing {
+extension HomeService: HomeServicing {
     func getTopRated() async -> Result<TopRatedModel, NetworkError> {
         return await service.fetchMovies(endpoint: MoviesEndpoint.topRated, with: TopRatedModel.self)
     }

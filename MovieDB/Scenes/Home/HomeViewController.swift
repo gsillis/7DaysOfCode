@@ -14,7 +14,7 @@ final class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        interactor.handlResult()
+        interactor.handleResult()
         view.backgroundColor = .red
     }
 }

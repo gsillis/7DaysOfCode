@@ -1,21 +1,21 @@
 import Foundation
 
 protocol HomeInteracting {
-    func handlResult()
+    func handleResult()
 }
 
 final class HomeInteractor {
     private let presenter: HomePresenting
-    private let service: HomeServing
+    private let service: HomeServicing
     
-    init(presenter: HomePresenting, service: HomeServing) {
+    init(presenter: HomePresenting, service: HomeServicing) {
         self.presenter = presenter
         self.service = service
     }
 }
 
 extension HomeInteractor: HomeInteracting {
-    func handlResult() {
+    func handleResult() {
         Task(priority: .background) {
             let result = await service.getTopRated()
             switch result {
