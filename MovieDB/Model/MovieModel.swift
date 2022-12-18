@@ -1,4 +1,4 @@
-struct MovieModel: Decodable {
+struct MovieModel: Decodable, Equatable {
     let posterPath: String?
     let adult: Bool?
     let overview, releaseDate: String?
