@@ -1,5 +1,10 @@
 import UIKit
 
+protocol HomeViewControllerDisplaying: AnyObject {
+    func startLoading()
+    func stopLoading()
+}
+
 final class HomeViewController: UIViewController {
     private let interactor: HomeInteracting
     
@@ -17,6 +22,12 @@ final class HomeViewController: UIViewController {
         view.backgroundColor = .red
         handleResult()
     }
+}
+
+extension HomeViewController: HomeViewControllerDisplaying {
+    func startLoading() {}
+    
+    func stopLoading() {}
 }
 
 private extension HomeViewController {
