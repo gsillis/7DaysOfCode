@@ -3,15 +3,18 @@ import XCTest
 
 fileprivate final class HomePresenterSpy: HomePresenting {
     private(set) var startLoadingCallsCount: Int = 0
+    var shouldHidden = false
     
-    func startLoading() {
+    func startLoading(_ shouldHidden: Bool) {
         startLoadingCallsCount += 1
+        self.shouldHidden = shouldHidden
     }
     
     private(set) var stopLoadingCallsCount: Int = 0
 
-    func stopLoading() {
+    func stopLoading(_ shouldHidden: Bool) {
         stopLoadingCallsCount += 1
+        self.shouldHidden = shouldHidden
     }
 }
 
@@ -53,10 +56,14 @@ final class HomeInteractorTests: XCTestCase {
         XCTAssertEqual(count, 1)
     }
     
-    func testHandleResult_WhenGetTopRatedSucceeds_ShouldCallStopLoading() async {
+    func testHandleResult_WhenCalled_ShouldCallStopLoading() async {
         let (sut, doubles) = makeSut()
         
         await sut.handleResult()
-        XCTAssertEqual(doubles.presenterSpy.stopLoadingCallsCount, 1)
+        
+        DispatchQueue.main.async {
+            XCTAssertEqual(doubles.presenterSpy.stopLoadingCallsCount, 1)
+            XCTAssertTrue(doubles.presenterSpy.shouldHidden)
+        }
     }
 }

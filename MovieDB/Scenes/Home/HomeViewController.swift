@@ -1,12 +1,19 @@
 import UIKit
 
 protocol HomeViewControllerDisplaying: AnyObject {
-    func startLoading()
-    func stopLoading()
+    func startLoading(_ shouldHidden: Bool)
+    func stopLoading(_ shouldHidden: Bool)
 }
 
 final class HomeViewController: UIViewController {
     private let interactor: HomeInteracting
+    
+    private lazy var loading: UIActivityIndicatorView = {
+        let loading = UIActivityIndicatorView(style: .large)
+        loading.translatesAutoresizingMaskIntoConstraints = false
+        loading.color = .white
+        return loading
+    }()
     
     init(interactor: HomeInteracting) {
         self.interactor = interactor
@@ -19,15 +26,38 @@ final class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .red
+        buildView()
+        interactor.viewDidLoad()
         handleResult()
+    }
+}
+extension HomeViewController: ViewsProtocol {
+    func setupView() {
+        view.backgroundColor = .red
+    }
+    
+    func buildConstraints() {
+        NSLayoutConstraint.activate([
+            loading.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            loading.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
+    }
+    
+    func buildViewHierarchy() {
+        view.addSubview(loading)
     }
 }
 
 extension HomeViewController: HomeViewControllerDisplaying {
-    func startLoading() {}
+    func startLoading(_ shouldHidden: Bool) {
+        loading.isHidden = shouldHidden
+        loading.startAnimating()
+    }
     
-    func stopLoading() {}
+    func stopLoading(_ shouldHidden: Bool) {
+        loading.isHidden = shouldHidden
+        loading.stopAnimating()
+    }
 }
 
 private extension HomeViewController {
@@ -35,5 +65,20 @@ private extension HomeViewController {
         Task(priority: .background) {
             await interactor.handleResult()
         }
+    }
+}
+
+protocol ViewsProtocol {
+    func buildView()
+    func buildConstraints()
+    func buildViewHierarchy()
+    func setupView()
+}
+
+extension ViewsProtocol {
+    func buildView() {
+        buildViewHierarchy()
+        buildConstraints()
+        setupView()
     }
 }

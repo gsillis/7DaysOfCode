@@ -17,14 +17,16 @@ final class HomeInteractor {
 
 extension HomeInteractor: HomeInteracting {
     func viewDidLoad() {
-        presenter.startLoading()
+        presenter.startLoading(false)
     }
     
     func handleResult() async {
         let result = await service.getTopRated()
+        DispatchQueue.main.async {
+            self.presenter.stopLoading(true)
+        }
         switch result {
         case .success(let data):
-            presenter.stopLoading()
             print(data)
         case .failure(let error):
             print(error)

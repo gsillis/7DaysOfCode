@@ -3,15 +3,18 @@ import XCTest
 
 fileprivate final class HomeViewControllerSpy: HomeViewControllerDisplaying {
     private(set) var startLoadingCallsCount: Int = 0
+    var shouldHidden = false
     
-    func startLoading() {
+    func startLoading(_ shouldHidden: Bool) {
         startLoadingCallsCount += 1
+        self.shouldHidden = shouldHidden
     }
     
     private(set) var stopLoadingCallsCount: Int = 0
-    
-    func stopLoading() {
+
+    func stopLoading(_ shouldHidden: Bool) {
         stopLoadingCallsCount += 1
+        self.shouldHidden = shouldHidden
     }
 }
 
@@ -26,16 +29,18 @@ final class HomePresenterTests: XCTestCase {
     func testStopLoading_WhenCalled_ShouldCallStopLoading() {
         let (sut, homeViewControllerSpy) = makeSut()
         
-        sut.stopLoading()
+        sut.stopLoading(true)
         
         XCTAssertEqual(homeViewControllerSpy.stopLoadingCallsCount, 1)
+        XCTAssertTrue(homeViewControllerSpy.shouldHidden)
     }
     
     func testStarLoading_WhenCalled_ShouldCallStarLoading() {
         let (sut, homeViewControllerSpy) = makeSut()
         
-        sut.startLoading()
+        sut.startLoading(false)
         
         XCTAssertEqual(homeViewControllerSpy.startLoadingCallsCount, 1)
+        XCTAssertFalse(homeViewControllerSpy.shouldHidden)
     }
 }

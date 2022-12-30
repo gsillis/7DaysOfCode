@@ -1,8 +1,8 @@
 import UIKit
 
 protocol HomePresenting {
-    func startLoading()
-    func stopLoading()
+    func startLoading(_ shouldHidden: Bool)
+    func stopLoading(_ shouldHidden: Bool)
 }
 
 final class HomePresenter {
@@ -10,11 +10,11 @@ final class HomePresenter {
 }
 
 extension HomePresenter: HomePresenting {
-    func startLoading() {
-        viewController?.startLoading()
+    func startLoading(_ shouldHidden: Bool) {
+        viewController?.startLoading(shouldHidden)
     }
     
-    func stopLoading() {
-        viewController?.stopLoading()
+    func stopLoading(_ shouldHidden: Bool) {
+        viewController?.stopLoading(shouldHidden)
     }
 }
