@@ -31,6 +31,7 @@ final class HomeViewController: UIViewController {
         handleResult()
     }
 }
+
 extension HomeViewController: ViewsProtocol {
     func setupView() {
         view.backgroundColor = .red
@@ -65,20 +66,5 @@ private extension HomeViewController {
         Task(priority: .background) {
             await interactor.handleResult()
         }
-    }
-}
-
-protocol ViewsProtocol {
-    func buildView()
-    func buildConstraints()
-    func buildViewHierarchy()
-    func setupView()
-}
-
-extension ViewsProtocol {
-    func buildView() {
-        buildViewHierarchy()
-        buildConstraints()
-        setupView()
     }
 }

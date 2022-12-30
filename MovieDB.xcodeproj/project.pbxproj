@@ -23,6 +23,7 @@
 		C50FD3E7294A879B002FE673 /* MovieModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C50FD3E6294A879B002FE673 /* MovieModel.swift */; };
 		C5168B80295F686900318F5C /* HomeInteractorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5168B7F295F686900318F5C /* HomeInteractorTests.swift */; };
 		C5168B82295F6BE100318F5C /* HomePresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5168B81295F6BE100318F5C /* HomePresenterTests.swift */; };
+		C5168B84295F750400318F5C /* ViewsProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5168B83295F750400318F5C /* ViewsProtocol.swift */; };
 		C5626B26294B60770021F7C4 /* HomeInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5626B25294B60770021F7C4 /* HomeInteractor.swift */; };
 		C5626B29294B608C0021F7C4 /* HomePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5626B28294B608C0021F7C4 /* HomePresenter.swift */; };
 		C5626B2B294B609E0021F7C4 /* HomeFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5626B2A294B609E0021F7C4 /* HomeFactory.swift */; };
@@ -70,6 +71,7 @@
 		C50FD3E6294A879B002FE673 /* MovieModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieModel.swift; sourceTree = "<group>"; };
 		C5168B7F295F686900318F5C /* HomeInteractorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeInteractorTests.swift; sourceTree = "<group>"; };
 		C5168B81295F6BE100318F5C /* HomePresenterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePresenterTests.swift; sourceTree = "<group>"; };
+		C5168B83295F750400318F5C /* ViewsProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewsProtocol.swift; sourceTree = "<group>"; };
 		C5626B25294B60770021F7C4 /* HomeInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeInteractor.swift; sourceTree = "<group>"; };
 		C5626B28294B608C0021F7C4 /* HomePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePresenter.swift; sourceTree = "<group>"; };
 		C5626B2A294B609E0021F7C4 /* HomeFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeFactory.swift; sourceTree = "<group>"; };
@@ -181,6 +183,7 @@
 			isa = PBXGroup;
 			children = (
 				C5626B24294B60660021F7C4 /* Home */,
+				C5168B85295F750A00318F5C /* Protocols */,
 			);
 			path = Scenes;
 			sourceTree = "<group>";
@@ -201,6 +204,14 @@
 				C5168B81295F6BE100318F5C /* HomePresenterTests.swift */,
 			);
 			path = Home;
+			sourceTree = "<group>";
+		};
+		C5168B85295F750A00318F5C /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				C5168B83295F750400318F5C /* ViewsProtocol.swift */,
+			);
+			path = Protocols;
 			sourceTree = "<group>";
 		};
 		C5486547294D15E900DF48A5 /* Scenes */ = {
@@ -363,6 +374,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C5626B2F294B66C40021F7C4 /* HomeService.swift in Sources */,
+				C5168B84295F750400318F5C /* ViewsProtocol.swift in Sources */,
 				C50FD3A02949FD63002FE673 /* HomeViewController.swift in Sources */,
 				C5626B26294B60770021F7C4 /* HomeInteractor.swift in Sources */,
 				C50FD3DE294A872E002FE673 /* Endpoint.swift in Sources */,
