@@ -1,7 +1,7 @@
 import Foundation
 
 protocol HomeInteracting {
-    func handleResult()
+    func handleResult() async
 }
 
 final class HomeInteractor {
@@ -15,15 +15,13 @@ final class HomeInteractor {
 }
 
 extension HomeInteractor: HomeInteracting {
-    func handleResult() {
-        Task(priority: .background) {
-            let result = await service.getTopRated()
-            switch result {
-            case .success(let data):
-                print(data)
-            case .failure(let error):
-                print(error)
-            }
+    func handleResult() async {
+        let result = await service.getTopRated()
+        switch result {
+        case .success(let data):
+            print(data)
+        case .failure(let error):
+            print(error)
         }
     }
 }
