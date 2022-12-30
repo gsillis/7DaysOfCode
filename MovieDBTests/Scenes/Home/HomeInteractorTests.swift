@@ -5,15 +5,11 @@ fileprivate final class HomePresenterSpy: HomePresenting {}
 
 fileprivate actor HomeServiceSpy: HomeServicing {
     private(set) var getTopRatedCallsCount: Int = 0
-    var result: (Result<TopRatedModel, NetworkError>) {
-        get async {
-            return .success(TopRatedModel.fixture())
-        }
-    }
+    var result: Result<TopRatedModel, NetworkError> = .success(TopRatedModel.fixture())
     
     func getTopRated() async -> Result<TopRatedModel, NetworkError> {
         getTopRatedCallsCount += 1
-        return await result
+        return result
     }
 }
 
@@ -30,10 +26,8 @@ final class HomeInteractorTests: XCTestCase {
     
     func testHandleResult_WhenCalledFromViewController_ShouldCallGetTopRated() async {
         let (sut, doubles) = makeSut()
-        
-        sut.handleResult()
+        await sut.handleResult()
         let count = await doubles.homeServiceSpy.getTopRatedCallsCount
-        
         XCTAssertEqual(count, 1)
     }
 }

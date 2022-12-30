@@ -14,8 +14,15 @@ final class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        interactor.handleResult()
+        fetchMovies()
         view.backgroundColor = .red
     }
 }
 
+private extension HomeViewController {
+    func fetchMovies() {
+        Task(priority: .background) {
+            await interactor.handleResult()
+        }
+    }
+}
