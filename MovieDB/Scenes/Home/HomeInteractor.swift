@@ -1,13 +1,16 @@
 import Foundation
 
 protocol HomeInteracting {
-    func handleResult() async
+    func getTopRated() async
     func viewDidLoad()
+    func movieForCell(at indexPath: IndexPath) -> HomeCellViewModel
+    var numberOfRows: Int { get }
 }
 
 final class HomeInteractor {
     private let presenter: HomePresenting
     private let service: HomeServicing
+    private var movies = [MovieModel]()
     
     init(presenter: HomePresenting, service: HomeServicing) {
         self.presenter = presenter
@@ -16,18 +19,40 @@ final class HomeInteractor {
 }
 
 extension HomeInteractor: HomeInteracting {
+    var numberOfRows: Int {
+        movies.count
+    }
+    
     func viewDidLoad() {
         presenter.startLoading(false)
     }
     
-    func handleResult() async {
+    func getTopRated() async {
         let result = await service.getTopRated()
         DispatchQueue.main.async {
             self.presenter.stopLoading(true)
         }
+       handleResult(with: result)
+    }
+    
+    func movieForCell(at indexPath: IndexPath) -> HomeCellViewModel {
+        let movie = movies[indexPath.row]
+        let model = HomeCellViewModel(
+            title: movie.title ?? "",
+            releaseDate: movie.releaseDate ?? "",
+            image: ""
+        )
+        return model
+    }
+}
+
+private extension HomeInteractor {
+    func handleResult(with result: Result<TopRatedModel, NetworkError>) {
         switch result {
         case .success(let data):
-            print(data)
+            if let movieList = data.results {
+                movies.append(contentsOf: movieList)
+            }
         case .failure(let error):
             print(error)
         }

@@ -15,6 +15,16 @@ final class HomeViewController: UIViewController {
         return loading
     }()
     
+    private lazy var tableView: UITableView = {
+        let tableView = UITableView()
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.register(HomeCell.self, forCellReuseIdentifier: HomeCell.identifier)
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.backgroundColor = .customPurple
+        return tableView
+    }()
+    
     init(interactor: HomeInteracting) {
         self.interactor = interactor
         super.init(nibName: nil, bundle: nil)
@@ -24,28 +34,37 @@ final class HomeViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        handleResult()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        buildView()
         interactor.viewDidLoad()
-        handleResult()
+        buildView()
     }
 }
 
 extension HomeViewController: ViewsProtocol {
     func setupView() {
-        view.backgroundColor = .red
+        view.backgroundColor = .customPurple
     }
     
     func buildConstraints() {
         NSLayoutConstraint.activate([
             loading.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            loading.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+            loading.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            tableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 16),
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -16),
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16)
         ])
     }
     
     func buildViewHierarchy() {
         view.addSubview(loading)
+        view.addSubview(tableView)
     }
 }
 
@@ -53,18 +72,34 @@ extension HomeViewController: HomeViewControllerDisplaying {
     func startLoading(_ shouldHidden: Bool) {
         loading.isHidden = shouldHidden
         loading.startAnimating()
+        tableView.isHidden = true
     }
     
     func stopLoading(_ shouldHidden: Bool) {
         loading.isHidden = shouldHidden
         loading.stopAnimating()
+        tableView.isHidden = false
+        tableView.reloadData()
+    }
+}
+
+extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: HomeCell.identifier, for: indexPath) as? HomeCell else { return UITableViewCell() }
+        let model = interactor.movieForCell(at: indexPath)
+        cell.setupCell(with: model)
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        interactor.numberOfRows
     }
 }
 
 private extension HomeViewController {
     func handleResult() {
         Task(priority: .background) {
-            await interactor.handleResult()
+            await interactor.getTopRated()
         }
     }
 }

@@ -50,20 +50,28 @@ final class HomeInteractorTests: XCTestCase {
     func testHandleResult_WhenCalledFromViewController_ShouldCallGetTopRated() async {
         let (sut, doubles) = makeSut()
         
-        await sut.handleResult()
+        await sut.getTopRated()
         
         let count = await doubles.homeServiceSpy.getTopRatedCallsCount
         XCTAssertEqual(count, 1)
     }
     
-    func testHandleResult_WhenCalled_ShouldCallStopLoading() async {
+    func testGetTopRated_WhenCalled_ShouldCallStopLoading() async {
         let (sut, doubles) = makeSut()
         
-        await sut.handleResult()
+        await sut.getTopRated()
         
         DispatchQueue.main.async {
             XCTAssertEqual(doubles.presenterSpy.stopLoadingCallsCount, 1)
             XCTAssertTrue(doubles.presenterSpy.shouldHidden)
         }
+    }
+    
+    func testGetTopRated_WhenRequestSucceeds_ShouldAppendDataToMoviesArray() async {
+        let (sut, double) = makeSut()
+        
+        await sut.getTopRated()
+
+        XCTAssertNotNil(sut.numberOfRows)
     }
 }
