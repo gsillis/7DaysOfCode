@@ -85,14 +85,15 @@ extension HomeViewController: HomeViewControllerDisplaying {
 
 extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: HomeCell.identifier, for: indexPath) as? HomeCell else { return UITableViewCell() }
-        let model = interactor.movieForCell(at: indexPath)
-        cell.setupCell(with: model)
-        return cell
+        setupCell(for: indexPath)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         interactor.numberOfRows
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        200.0
     }
 }
 
@@ -101,5 +102,14 @@ private extension HomeViewController {
         Task(priority: .background) {
             await interactor.getTopRated()
         }
+    }
+    
+    func setupCell(for indexPath: IndexPath) -> HomeCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: HomeCell.identifier, for: indexPath) as? HomeCell else {
+            return HomeCell()
+        }
+        let model = interactor.movieForCell(at: indexPath)
+        cell.setupCell(with: model)
+        return cell
     }
 }
