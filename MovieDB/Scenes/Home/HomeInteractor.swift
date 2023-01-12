@@ -1,9 +1,10 @@
 import Foundation
+import UIKit
 
 protocol HomeInteracting {
     func getTopRated() async
     func viewDidLoad()
-    func movieForCell(at indexPath: IndexPath) -> HomeCellViewModel
+    func movieForCell(at indexPath: IndexPath) async -> HomeCellViewModel
     var numberOfRows: Int { get }
 }
 
@@ -19,6 +20,9 @@ final class HomeInteractor {
 }
 
 extension HomeInteractor: HomeInteracting {
+    func getMoviePoster() async {
+    }
+    
     var numberOfRows: Int {
         movies.count
     }
@@ -35,12 +39,16 @@ extension HomeInteractor: HomeInteracting {
        handleResult(with: result)
     }
     
-    func movieForCell(at indexPath: IndexPath) -> HomeCellViewModel {
+    func movieForCell(at indexPath: IndexPath) async -> HomeCellViewModel {
         let movie = movies[indexPath.row]
+        let path = movie.backdropPath
+        
+        let image = await ImageDownloader().image(from: MoviesEndpoint.images(path: path ?? ""))
+        
         let model = HomeCellViewModel(
             title: movie.title ?? "",
             releaseDate: movie.releaseDate ?? "",
-            image: ""
+            image: image ?? UIImage()
         )
         return model
     }
@@ -52,6 +60,9 @@ private extension HomeInteractor {
         case .success(let data):
             if let movieList = data.results {
                 movies.append(contentsOf: movieList)
+                movies.forEach { movie in
+                    movie.backdropPath
+                }
             }
         case .failure(let error):
             print(error)

@@ -13,7 +13,6 @@ final class HomeCell: UITableViewCell {
         let image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
         image.contentMode = .scaleAspectFill
-        image.backgroundColor = .red
         return image
     }()
     
@@ -80,7 +79,7 @@ extension HomeCell: HomeCellConfigurable {
     func setupCell(with viewModel: HomeCellViewModel) {
         titleLabel.text = viewModel.title
         subTitlelabel.text = viewModel.releaseDate
-        cellIMageView.image = UIImage(named: viewModel.image)
+        cellIMageView.image = viewModel.image
     }
 }
 
@@ -95,7 +94,7 @@ struct HomeCellPreview: PreviewProvider {
             let model = HomeCellViewModel(
                 title: "Any 1",
                 releaseDate: "Any 2",
-                image: ""
+                image: UIImage()
             )
             view.setupCell(with: model)
             return view

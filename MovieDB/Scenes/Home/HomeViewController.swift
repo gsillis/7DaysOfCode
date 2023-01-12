@@ -104,12 +104,15 @@ private extension HomeViewController {
         }
     }
     
-    func setupCell(for indexPath: IndexPath) -> HomeCell {
+    func setupCell(for indexPath: IndexPath)  -> HomeCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: HomeCell.identifier, for: indexPath) as? HomeCell else {
             return HomeCell()
         }
-        let model = interactor.movieForCell(at: indexPath)
-        cell.setupCell(with: model)
+        
+        Task {
+            let model = await interactor.movieForCell(at: indexPath)
+            cell.setupCell(with: model)
+        }
         return cell
     }
 }

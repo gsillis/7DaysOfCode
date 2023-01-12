@@ -2,9 +2,10 @@ import Foundation
 
 protocol ApiRequestServing {
     func fetchMovies<T: Decodable>(endpoint: Endpoint, with model: T.Type) async -> Result<T, NetworkError>
+    func downloadImage(endpoint: Endpoint) async throws -> Result<Data, NetworkError>
 }
 
-final class ApiRequestService {
+actor ApiRequestService {
     private let urlSession: URLSession
     
     init(urlSession: URLSession = .shared) {
@@ -24,6 +25,32 @@ extension ApiRequestService: ApiRequestServing {
         let result = await handleRequestResult(request: request, with: model)
         return result
     }
+    
+    func downloadImage(endpoint: Endpoint) async throws -> Result<Data, NetworkError> {
+        let urlComponents = configUrlComponents(with: endpoint)
+        
+        guard let url = urlComponents.url else {
+            return .failure(.invalidUrl)
+        }
+        
+        let request = configURLRequest(url: url, with: endpoint)
+
+        do {
+            let (data, response) = try await urlSession.data(for: request)
+            
+            guard let response = response as? HTTPURLResponse else {
+                return .failure(.noResponse)
+            }
+            
+            guard response.statusCode == 200 else {
+                return .failure(.noResponse)
+            }
+            
+            return  .success(data)
+        } catch {
+            return .failure(.unexpectedError)
+        }
+    }
 }
 
 private extension ApiRequestService {
@@ -32,6 +59,7 @@ private extension ApiRequestService {
         urlComponents.scheme = endpoint.scheme
         urlComponents.host = endpoint.baseURL
         urlComponents.path = endpoint.path
+        urlComponents.query = endpoint.language
         return urlComponents
     }
     
@@ -44,7 +72,7 @@ private extension ApiRequestService {
     
     func handleRequestResult<T: Decodable>(request: URLRequest, with model: T.Type) async -> Result<T, NetworkError> {
         do {
-            let (data, response) = try await URLSession.shared.data(for: request, delegate: nil)
+            let (data, response) = try await urlSession.data(for: request, delegate: nil)
             guard let response = response as? HTTPURLResponse else {
                 return .failure(.noResponse)
             }
