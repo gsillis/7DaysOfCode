@@ -32,6 +32,7 @@ private extension ApiRequestService {
         urlComponents.scheme = endpoint.scheme
         urlComponents.host = endpoint.baseURL
         urlComponents.path = endpoint.path
+        urlComponents.query = endpoint.language
         return urlComponents
     }
     

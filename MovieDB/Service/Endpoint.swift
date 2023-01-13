@@ -4,6 +4,7 @@ protocol Endpoint {
     var method: RequestMethod { get }
     var path: String { get }
     var header: [String: String] { get }
+    var language: String { get }
 }
 
 extension Endpoint {
@@ -17,5 +18,9 @@ extension Endpoint {
     
     var method: RequestMethod {
         return .get
+    }
+    
+    var language: String {
+        return "language=pt-BR"
     }
 }
