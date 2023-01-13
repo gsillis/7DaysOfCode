@@ -4,10 +4,17 @@ Repositório do projeto desenvolvido durante o desafio 7 Days Of Code da Alura.
  - Arquitetura VIP-C
  - UI construídas programaticamente (view code)
  - Testes unitários
- - Request nativa com `async await`  
+ - Request nativa com `async await` 
+ - SPM 
+ 
+### Bibliotecas terceiras:
+- SnapKit
+- KingFisher
 
 
-Links utilizados para estudos e referências:
+
+
+### Links utilizados nos estudos:
 - [Meet async/await in Swift](https://developer.apple.com/videos/play/wwdc2021/10132/)
 - [Effortless Concurrency in Swift with Async/Await](https://matteomanferdini.com/swift-async-await/)
 - [Async/Await: Generic Network Layer With Swift 5.5](https://betterprogramming.pub/async-await-generic-network-layer-with-swift-5-5-2bdd51224ea9)
