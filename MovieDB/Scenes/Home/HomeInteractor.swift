@@ -29,10 +29,8 @@ extension HomeInteractor: HomeInteracting {
     
     func getTopRated() async {
         let result = await service.getTopRated()
-        DispatchQueue.main.async {
-            self.presenter.stopLoading(true)
-        }
-       handleResult(with: result)
+        presenter.stopLoading(true)
+        handleResult(with: result)
     }
     
     func movieForCell(at indexPath: IndexPath) -> HomeCellViewModel {

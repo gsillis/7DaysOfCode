@@ -64,7 +64,7 @@ extension HomeViewController: ViewsProtocol {
         
         titleLabel.snp.makeConstraints { make in
             make.leading.top.equalTo(view.safeAreaLayoutGuide).offset(16)
-            make.trailing.top.equalTo(view.safeAreaLayoutGuide).offset(-16)
+            make.trailing.equalTo(view.safeAreaLayoutGuide).offset(-16)
         }
         
         tableView.snp.makeConstraints { make in
@@ -85,14 +85,14 @@ extension HomeViewController: HomeViewControllerDisplaying {
     func startLoading(_ shouldHidden: Bool) {
         loading.isHidden = shouldHidden
         loading.startAnimating()
-        tableView.isHidden = true
     }
     
     func stopLoading(_ shouldHidden: Bool) {
-        loading.isHidden = shouldHidden
-        loading.stopAnimating()
-        tableView.isHidden = false
-        tableView.reloadData()
+        Task {
+            loading.isHidden = shouldHidden
+            loading.stopAnimating()
+            tableView.reloadData()
+        }
     }
 }
 
