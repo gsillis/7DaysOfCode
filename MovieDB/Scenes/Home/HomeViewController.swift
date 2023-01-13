@@ -15,6 +15,13 @@ final class HomeViewController: UIViewController {
         return loading
     }()
     
+    private lazy var titleLabel: Label = {
+        let label = Label(ofSize: 28)
+        label.text = "Filmes Populares"
+        label.textAlignment = .center
+        return label
+    }()
+    
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.register(HomeCell.self, forCellReuseIdentifier: HomeCell.identifier)
@@ -55,14 +62,21 @@ extension HomeViewController: ViewsProtocol {
             make.centerX.centerY.equalToSuperview()
         }
         
+        titleLabel.snp.makeConstraints { make in
+            make.leading.top.equalTo(view.safeAreaLayoutGuide).offset(16)
+            make.trailing.top.equalTo(view.safeAreaLayoutGuide).offset(-16)
+        }
+        
         tableView.snp.makeConstraints { make in
             make.trailing.bottom.equalTo(view.safeAreaLayoutGuide).offset(-16)
-            make.leading.top.equalTo(view.safeAreaLayoutGuide).offset(16)
+            make.top.equalTo(titleLabel.snp.bottom).offset(24)
+            make.leading.equalTo(view.safeAreaLayoutGuide).offset(16)
         }
     }
     
     func buildViewHierarchy() {
         view.addSubview(loading)
+        view.addSubview(titleLabel)
         view.addSubview(tableView)
     }
 }

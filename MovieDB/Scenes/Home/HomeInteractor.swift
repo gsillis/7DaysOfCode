@@ -38,10 +38,11 @@ extension HomeInteractor: HomeInteracting {
     func movieForCell(at indexPath: IndexPath) -> HomeCellViewModel {
         let movie = movies[indexPath.row]
         let url = MoviesEndpoint.image(path: movie.posterPath ?? "").path
+        let date = movie.releaseDate?.formatDate() ?? ""
         
         let model = HomeCellViewModel(
             title: movie.title ?? "",
-            releaseDate: movie.releaseDate ?? "",
+            releaseDate: "Lançamento: \(date)",
             imagePath: URL(string: url)
         )
         return model
