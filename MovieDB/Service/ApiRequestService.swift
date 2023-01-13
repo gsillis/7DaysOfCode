@@ -4,7 +4,7 @@ protocol ApiRequestServing {
     func fetchMovies<T: Decodable>(endpoint: Endpoint, with model: T.Type) async -> Result<T, NetworkError>
 }
 
-final class ApiRequestService {
+actor ApiRequestService {
     private let urlSession: URLSession
     
     init(urlSession: URLSession = .shared) {

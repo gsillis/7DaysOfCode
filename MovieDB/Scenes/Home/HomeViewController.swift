@@ -1,4 +1,5 @@
 import UIKit
+import SnapKit
 
 protocol HomeViewControllerDisplaying: AnyObject {
     func startLoading(_ shouldHidden: Bool)
@@ -10,14 +11,12 @@ final class HomeViewController: UIViewController {
     
     private lazy var loading: UIActivityIndicatorView = {
         let loading = UIActivityIndicatorView(style: .large)
-        loading.translatesAutoresizingMaskIntoConstraints = false
         loading.color = .white
         return loading
     }()
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
-        tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.register(HomeCell.self, forCellReuseIdentifier: HomeCell.identifier)
         tableView.delegate = self
         tableView.dataSource = self
@@ -52,14 +51,14 @@ extension HomeViewController: ViewsProtocol {
     }
     
     func buildConstraints() {
-        NSLayoutConstraint.activate([
-            loading.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            loading.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            tableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 16),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -16),
-            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16)
-        ])
+        loading.snp.makeConstraints { make in
+            make.centerX.centerY.equalToSuperview()
+        }
+        
+        tableView.snp.makeConstraints { make in
+            make.trailing.bottom.equalTo(view.safeAreaLayoutGuide).offset(-16)
+            make.leading.top.equalTo(view.safeAreaLayoutGuide).offset(16)
+        }
     }
     
     func buildViewHierarchy() {
@@ -93,7 +92,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        200.0
+        140.0
     }
 }
 

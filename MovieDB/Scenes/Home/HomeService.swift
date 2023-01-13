@@ -4,7 +4,7 @@ protocol HomeServicing {
     func getTopRated() async -> Result<TopRatedModel, NetworkError>
 }
 
-final class HomeService {
+actor HomeService {
     private let service: ApiRequestServing
     
     init(service: ApiRequestServing = ApiRequestService()) {

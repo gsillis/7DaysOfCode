@@ -1,5 +1,7 @@
+import Foundation
+
 struct HomeCellViewModel {
     let title: String
     let releaseDate: String
-    let image: String
+    let imagePath: URL?
 }

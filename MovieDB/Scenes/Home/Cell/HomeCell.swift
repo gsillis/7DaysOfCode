@@ -1,4 +1,5 @@
 import UIKit
+import SnapKit
 
 protocol HomeCellConfigurable {
     func setupCell(with viewModel: HomeCellViewModel)
@@ -9,33 +10,24 @@ final class HomeCell: UITableViewCell {
         String(describing: HomeCell.self)
     }
     
-    private lazy var cellIMageView: UIImageView = {
-        let image = UIImageView()
-        image.translatesAutoresizingMaskIntoConstraints = false
+    private lazy var cellIMageView: Image = {
+        let image = Image(roundBorder: 12, frame: .zero)
         image.contentMode = .scaleAspectFill
-        image.backgroundColor = .red
         return image
     }()
     
-    private lazy var titleLabel: UILabel = {
-        let label = UILabel()
-        label.font = .systemFont(ofSize: 16, weight: .bold)
-        label.textColor = .white
-        label.numberOfLines = 0
+    private lazy var titleLabel: Label = {
+        let label = Label()
         return label
     }()
     
-    private lazy var subTitlelabel: UILabel = {
-        let label = UILabel()
-        label.font = .systemFont(ofSize: 14, weight: .regular)
-        label.textColor = .lightGray
-        label.numberOfLines = 0
+    private lazy var subTitlelabel: Label = {
+        let label = Label(ofSize: 14, weight: .regular, color: .lightGray)
         return label
     }()
     
     private lazy var titleStackView: UIStackView = {
         let stack = UIStackView(arrangedSubviews: [titleLabel, subTitlelabel])
-        stack.translatesAutoresizingMaskIntoConstraints = false
         stack.axis = .vertical
         stack.alignment = .leading
         stack.spacing = 2
@@ -64,15 +56,16 @@ extension HomeCell: ViewsProtocol {
     }
     
     func buildConstraints() {
-        NSLayoutConstraint.activate([
-            cellIMageView.widthAnchor.constraint(equalToConstant: 100),
-            cellIMageView.heightAnchor.constraint(equalToConstant: 160),
-            cellIMageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            cellIMageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            titleStackView.leadingAnchor.constraint(equalTo: cellIMageView.trailingAnchor, constant: 16),
-            titleStackView.centerYAnchor.constraint(equalTo: cellIMageView.centerYAnchor),
-            titleStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
-        ])
+        cellIMageView.snp.makeConstraints { make in
+            make.leading.centerY.equalToSuperview()
+            make.size.equalTo(CGSize(width: 90, height: 120))
+        }
+        
+        titleStackView.snp.makeConstraints { make in
+            make.trailing.equalToSuperview()
+            make.centerY.equalTo(cellIMageView.snp.centerY)
+            make.leading.equalTo(cellIMageView.snp.trailing).offset(16)
+        }
     }
 }
 
@@ -80,7 +73,7 @@ extension HomeCell: HomeCellConfigurable {
     func setupCell(with viewModel: HomeCellViewModel) {
         titleLabel.text = viewModel.title
         subTitlelabel.text = viewModel.releaseDate
-        cellIMageView.image = UIImage(named: viewModel.image)
+        cellIMageView.loadImage(from: viewModel.imagePath)
     }
 }
 
@@ -95,7 +88,7 @@ struct HomeCellPreview: PreviewProvider {
             let model = HomeCellViewModel(
                 title: "Any 1",
                 releaseDate: "Any 2",
-                image: ""
+                imagePath: nil
             )
             view.setupCell(with: model)
             return view
