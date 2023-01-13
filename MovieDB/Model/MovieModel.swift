@@ -1,3 +1,5 @@
+import Foundation
+
 struct MovieModel: Decodable, Equatable {
     let posterPath: String?
     let adult: Bool?
@@ -11,6 +13,16 @@ struct MovieModel: Decodable, Equatable {
     let voteCount: Int?
     let video: Bool?
     let voteAverage: Double?
+    
+    var releaseDateFormatted: String {
+        let date = releaseDate?.formatDate() ?? ""
+        return "Lançamento: \(date)"
+    }
+    
+    var posterPathImage: URL? {
+        let url = MoviesEndpoint.image(path: posterPath ?? "").path
+        return URL(string: url)
+    }
 
     enum CodingKeys: String, CodingKey {
         case posterPath = "poster_path"
