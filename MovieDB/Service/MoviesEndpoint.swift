@@ -1,9 +1,22 @@
 import Foundation
 
-enum MoviesEndpoint {
+enum MoviesEndpoint: Equatable {
     case topRated
     case movieDetail(id: Int)
     case image(path: String)
+    
+    static func == (lhs: MoviesEndpoint, rhs: MoviesEndpoint) -> Bool {
+        switch (lhs, rhs) {
+        case (.topRated, .topRated):
+            return true
+        case (.movieDetail(let lhsId), .movieDetail(let rhsId)):
+            return lhsId == rhsId
+        case (.image(let lhsPath), .image(let rhsPath)):
+            return lhsPath == rhsPath
+        default:
+            return false
+        }
+    }
 }
  
 extension MoviesEndpoint: Endpoint {    
