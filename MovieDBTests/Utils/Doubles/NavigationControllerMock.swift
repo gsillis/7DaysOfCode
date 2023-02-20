@@ -1,6 +1,6 @@
 import UIKit
 
-final class MockNavigationController: UINavigationController {
+final class NavigationControllerMock: UINavigationController {
     private let rootViewController: UIViewController
     
     override init(rootViewController: UIViewController) {

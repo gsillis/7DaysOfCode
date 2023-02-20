@@ -2,12 +2,12 @@
 import XCTest
 
 final class HomeCoordinatorTests: XCTestCase {
-    private func makeSut() -> (HomeCoordinator, MockNavigationController) {
+    private func makeSut() -> (HomeCoordinator, NavigationControllerMock) {
         let sut = HomeCoordinator()
         let mockViewController = UIViewController()
         sut.viewController = mockViewController
             
-        let navigationControllerSpy = MockNavigationController(rootViewController: mockViewController)
+        let navigationControllerSpy = NavigationControllerMock(rootViewController: mockViewController)
             
         return (sut, navigationControllerSpy)
     }
