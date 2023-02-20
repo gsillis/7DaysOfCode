@@ -12,7 +12,6 @@ final class HomeCell: UITableViewCell {
     
     private lazy var cellIMageView: Image = {
         let image = Image(roundBorder: 12, frame: .zero)
-        image.contentMode = .scaleAspectFill
         return image
     }()
     

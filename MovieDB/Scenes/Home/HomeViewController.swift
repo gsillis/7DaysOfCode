@@ -108,6 +108,10 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         140.0
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        interactor.selectMovie(at: indexPath)
+    }
 }
 
 private extension HomeViewController {
@@ -118,7 +122,10 @@ private extension HomeViewController {
     }
     
     func setupCell(for indexPath: IndexPath) -> HomeCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: HomeCell.identifier, for: indexPath) as? HomeCell else {
+        guard let cell = tableView.dequeueReusableCell(
+            withIdentifier: HomeCell.identifier,
+            for: indexPath
+        ) as? HomeCell else {
             return HomeCell()
         }
         let model = interactor.movieForCell(at: indexPath)

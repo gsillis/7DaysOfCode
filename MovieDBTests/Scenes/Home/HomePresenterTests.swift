@@ -18,10 +18,19 @@ fileprivate final class HomeViewControllerSpy: HomeViewControllerDisplaying {
     }
 }
 
+fileprivate final class HomeCoordinatorSpy: HomeCoordinating {
+    private(set) var showDetailsCallsCount: Int = 0
+    
+    func showDetails(with movie: MovieDB.MovieModel) {
+        showDetailsCallsCount += 1
+    }
+}
+
 final class HomePresenterTests: XCTestCase {
     private func makeSut() -> (HomePresenter, HomeViewControllerSpy) {
         let homeViewControllerSpy = HomeViewControllerSpy()
-        let sut = HomePresenter()
+        let coordinatorSpy = HomeCoordinatorSpy()
+        let sut = HomePresenter(coordinator: coordinatorSpy)
         sut.viewController = homeViewControllerSpy
         return (sut, homeViewControllerSpy)
     }

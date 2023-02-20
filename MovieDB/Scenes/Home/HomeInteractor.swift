@@ -4,6 +4,7 @@ protocol HomeInteracting {
     func getTopRated() async
     func viewDidLoad()
     func movieForCell(at indexPath: IndexPath) -> HomeCellViewModel
+    func selectMovie(at indexPath: IndexPath)
     var numberOfRows: Int { get }
 }
 
@@ -42,6 +43,11 @@ extension HomeInteractor: HomeInteracting {
             imagePath: movie.posterPathImage
         )
         return model
+    }
+    
+    func selectMovie(at indexPath: IndexPath) {
+        let movie = movies[indexPath.row]
+        presenter.selectedMovie(movie)
     }
 }
 

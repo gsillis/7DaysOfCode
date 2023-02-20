@@ -16,9 +16,17 @@ fileprivate final class HomePresenterSpy: HomePresenting {
         stopLoadingCallsCount += 1
         self.shouldHidden = shouldHidden
     }
+    
+    private(set) var selectedMovieCallsCount = 0
+    private(set) var selectedMovie: MovieModel?
+    
+    func selectedMovie(_ movie: MovieDB.MovieModel) {
+        selectedMovieCallsCount += 1
+        selectedMovie = movie
+    }
 }
 
-fileprivate actor HomeServiceSpy: HomeServicing {
+fileprivate final class HomeServiceSpy: HomeServicing {
     private(set) var getTopRatedCallsCount: Int = 0
     var result: Result<TopRatedModel, NetworkError> = .success(TopRatedModel.fixture())
     
@@ -52,7 +60,7 @@ final class HomeInteractorTests: XCTestCase {
         
         await sut.getTopRated()
         
-        let count = await doubles.homeServiceSpy.getTopRatedCallsCount
+        let count =  doubles.homeServiceSpy.getTopRatedCallsCount
         XCTAssertEqual(count, 1)
     }
     
@@ -68,10 +76,26 @@ final class HomeInteractorTests: XCTestCase {
     }
     
     func testGetTopRated_WhenRequestSucceeds_ShouldAppendDataToMoviesArray() async {
-        let (sut, double) = makeSut()
+        let (sut, _) = makeSut()
         
         await sut.getTopRated()
 
         XCTAssertNotNil(sut.numberOfRows)
+    }
+    
+    func testSelectMovieAtIndexPath_WhenCalledWithAnIndexPath_ShouldReturnAMovieModel() async {
+        let (sut, doubles) = makeSut()
+        
+        let expectedMovie = MovieModel.fixture()
+        
+        await sut.getTopRated()
+        
+        let indexPath = IndexPath(row: 0, section: 0)
+
+        sut.selectMovie(at: indexPath)
+        
+
+        XCTAssertEqual(doubles.presenterSpy.selectedMovieCallsCount, 1)
+        XCTAssertEqual(doubles.presenterSpy.selectedMovie, expectedMovie)
     }
 }
