@@ -25,7 +25,7 @@ private extension MovieDetailView.Layout {
 }
 
 final class MovieDetailView: UIView {
-    enum Layout {}
+    fileprivate enum Layout {}
     
     private lazy var imageView: Image = {
         let image = Image(roundBorder: Layout.Size.roundBorder, frame: .zero)
