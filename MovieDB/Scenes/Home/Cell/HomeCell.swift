@@ -50,7 +50,7 @@ extension HomeCell: ViewsProtocol {
     }
     
     func setupView() {
-        backgroundColor = .customPurple
+        backgroundColor = .clear
         selectionStyle = .none
     }
     

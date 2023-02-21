@@ -105,7 +105,17 @@ extension MovieDetailView: ViewsProtocol {
     }
     
     func setupView() {
-        backgroundColor = .customPurple
+       setupViewBackground()
+    }
+}
+
+private extension MovieDetailView {
+    func setupViewBackground() {
+        let gradientLayer = GradientView()
+        self.insertSubview(gradientLayer, at: 0)
+        gradientLayer.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
     }
 }
 

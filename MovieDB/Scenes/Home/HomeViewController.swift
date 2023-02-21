@@ -27,7 +27,7 @@ final class HomeViewController: UIViewController {
         tableView.register(HomeCell.self, forCellReuseIdentifier: HomeCell.identifier)
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.backgroundColor = .customPurple
+        tableView.backgroundColor = .clear
         return tableView
     }()
     
@@ -54,7 +54,7 @@ final class HomeViewController: UIViewController {
 
 extension HomeViewController: ViewsProtocol {
     func setupView() {
-        view.backgroundColor = .customPurple
+        setupViewBackground()
     }
     
     func buildConstraints() {
@@ -115,6 +115,12 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
 }
 
 private extension HomeViewController {
+    func setupViewBackground() {
+        let gradientLayer = GradientView()
+        gradientLayer.frame = view.bounds
+        view.insertSubview(gradientLayer, at: 0)
+    }
+    
     func handleResult() {
         Task(priority: .background) {
             await interactor.getTopRated()
