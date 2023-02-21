@@ -11,4 +11,5 @@ extension UIColor {
     }
     
     static let customPurple = UIColor(customRed: 46, customGreen: 19, customBlue: 113)
+    static let customPurpleDark = UIColor(customRed: 19, customGreen: 11, customBlue: 43)
 }
