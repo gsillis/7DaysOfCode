@@ -10,19 +10,35 @@ protocol DetailViewDelegate: AnyObject {
     func closeButtonTapped()
 }
 
+private extension MovieDetailView.Layout {
+    enum Size {
+        static var roundBorder = 12.0
+        static var titleLabelSize = 28.0
+        static var detailLabelSize = 15.0
+        static var stackSpacing = 20.0
+        static var imageTop = 30.0
+        static var imageHeight = 250.0
+        static var imageWidth = 200.0
+        static var stackTop = 20.0
+        static var stackEdges = 16.0
+    }
+}
+
 final class MovieDetailView: UIView {
+    enum Layout {}
+    
     private lazy var imageView: Image = {
-        let image = Image(roundBorder: 12, frame: .zero)
+        let image = Image(roundBorder: Layout.Size.roundBorder, frame: .zero)
         return image
     }()
     
     private lazy var titleLabel: Label = {
-        let label = Label(ofSize: 28)
+        let label = Label(ofSize: Layout.Size.titleLabelSize)
         return label
     }()
     
     private lazy var detailLabel: Label = {
-        let label = Label(ofSize: 15)
+        let label = Label(ofSize: Layout.Size.detailLabelSize)
         return label
     }()
     
@@ -36,7 +52,7 @@ final class MovieDetailView: UIView {
     private lazy var stackView: UIStackView = {
         let stack = UIStackView(arrangedSubviews: [titleLabel, detailLabel])
         stack.axis = .vertical
-        stack.spacing = 20
+        stack.spacing = Layout.Size.stackSpacing
         return stack
     }()
     
@@ -63,10 +79,10 @@ extension MovieDetailView: ViewsProtocol {
         }
         
         imageView.snp.makeConstraints { make in
-            make.top.equalTo(30)
+            make.top.equalTo(Layout.Size.imageTop)
             make.centerX.equalToSuperview()
-            make.height.equalTo(250)
-            make.width.equalTo(200)
+            make.height.equalTo(Layout.Size.imageHeight)
+            make.width.equalTo(Layout.Size.imageWidth)
         }
        
         contentView.snp.makeConstraints { make in
@@ -75,9 +91,9 @@ extension MovieDetailView: ViewsProtocol {
         }
         
         stackView.snp.makeConstraints { make in
-            make.top.equalTo(imageView.snp.bottom).offset(20)
-            make.leading.equalToSuperview().offset(16)
-            make.trailing.equalToSuperview().offset(-16)
+            make.top.equalTo(imageView.snp.bottom).offset(Layout.Size.stackTop)
+            make.leading.equalToSuperview().offset(Layout.Size.stackEdges)
+            make.trailing.equalToSuperview().offset(-Layout.Size.stackEdges)
         }
     }
     
